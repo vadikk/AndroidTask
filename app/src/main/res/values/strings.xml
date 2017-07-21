@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="final_title">Молодець!</string>
+    <string name="final_message">Давай випарвляй ті кейси, які я тобі описав.</string>
 </resources>

@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+<!--TODO: 21.07.17 Данік, на що цей лейаут схожий?-->
+<!--TODO: 21.07.17 Не позорся.-->
+<!--TODO: 21.07.17 Глянь в інтернеті, де нормально показано, як має ця форма виглядати.-->
+<!--TODO: 21.07.17 Точно що не так. як ти показав - без відступів по боках, show password взагалі не там, де треба.-->
+
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
+    <!--TODO: 21.07.17 Дивись, коли ти пишеш id вьюхі, то ти маєш в актівіті її вказати, щоб з нею працювати.-->
+    <!--TODO: 21.07.17 Ти точно скажеш мені, що editText2 - це вьюха для роботи із милом, а editText3 - пароль?-->
 
     <EditText
         android:id="@+id/editText2"
@@ -33,6 +49,9 @@
         android:text="OK"
         android:layout_centerInParent="true"
         android:onClick="submitInformation"/>
+
+    <!--TODO: 21.07.17 Наприклад, я в код не ліз ще і не знаю, для чого ця вьюха тре буде.-->
+    <!--TODO: 21.07.17 Краще назви довго, але щоб інша людина розуміла, що з нею тре буде робити.-->
 
     <TextView
         android:id="@+id/textView2"
