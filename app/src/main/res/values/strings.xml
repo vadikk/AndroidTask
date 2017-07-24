@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="final_title">Молодець!</string>
-    <string name="final_message">Давай випарвляй ті кейси, які я тобі описав.</string>
+    <string name="final_message">Я все исправил.</string>
+
+    <string name="login_error">Please write login</string>
+    <string name="password_error">Please write password</string>
 </resources>
