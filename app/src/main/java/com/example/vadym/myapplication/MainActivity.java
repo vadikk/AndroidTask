@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     passwordText.setTransformationMethod(new PasswordTransformationMethod());
                 }
+                // TODO: Дуже розумно з селекшеном. А можеш запам’ятовувати позицію,
+                // TODO: на якій користувач був, як ставив курсор на текст?
                 passwordText.setSelection(passwordText.getText().length());
             }
         });
@@ -48,9 +49,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: Давай ще цікавого додамо.
+        // TODO: Додай підтримку клавіатури трохи.
+        // TODO: Коли чувак ввів пароль і на клаві натискає галочку, то його має автоматом логінити.
+
+        // TODO: І давай вже новий екран!
+        // TODO: Якщо успішно входить чувак, то він переходить на новий екран, на якому написано привітання його по логіну.
+        // TODO: Також там має буть кнопка "вийти".
+        // TODO: Якщо чувак її не клікає, то заходить автоматом на другий екран.
     }
 
     public void submitInformation(View view) {
+        // TODO: Дивись, в тебе на вхід мають йти аргументи, які мають використовуватися.
+        // TODO: Коли ти клікнеш на вьюху, то вона в тебе нікуди не поведе, тобто, її можна видаляти з функції, так і зроби.
 
         if (loginText.getText().length() == 0 && passwordText.getText().length() == 0) {
             //viewText.setVisibility(View.VISIBLE);

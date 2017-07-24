@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
+<!--todo Поверни екран на бік і постав девайс nexus one на 3.7 дюйма-->
+<!--todo В тебе не плазитиме кнопка логіну-->
+<!--todo Придумай якось обхід для цього варіанту-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
