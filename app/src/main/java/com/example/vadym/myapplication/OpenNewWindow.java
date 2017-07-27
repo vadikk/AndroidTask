@@ -26,6 +26,7 @@ public class OpenNewWindow extends AppCompatActivity {
         welcomeText = (TextView) findViewById(R.id.welcomeText);
         btnExit = (Button) findViewById(R.id.btnExit);
 
+        // TODO: Якщо юзаєш якісь речі повторно - винеси їх, особливо, якщо це змінні.
         sharedPreferences = getSharedPreferences(MainActivity.AppPrefs, Context.MODE_PRIVATE);
         String user = sharedPreferences.getString(MainActivity.Login,"");
         welcomeText.setText("Hello " + user);
@@ -37,6 +38,7 @@ public class OpenNewWindow extends AppCompatActivity {
             }
         });
 
+        // TODO: Коли зайшов в додаток вже типу наступного разу, то натискаю назад і знову сторінка логінки.
     }
 
     private void logout(){
@@ -46,6 +48,7 @@ public class OpenNewWindow extends AppCompatActivity {
 
         Intent i = new Intent(this,MainActivity.class);
         startActivity(i);
+        // TODO: Коли найтиснув на вихід і настинув назад - показує знову цей екран.
     }
 
 

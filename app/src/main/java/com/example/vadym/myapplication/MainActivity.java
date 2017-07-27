@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+    // TODO: Навіщо тут статика?
     public static EditText loginText;
     private EditText passwordText;
     private CheckBox check;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String IS_Sign_In = "UserLoginIn";
 
     private SharedPreferences sharedPreferences;
+    // TODO: Неюзабельна змінна
     public static boolean autoSignIn = false;
 
     @Override
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     passwordText.setTransformationMethod(new PasswordTransformationMethod());
 
                 }
+                // TODO: не працює запам’ятовування позиції курсора, коли знімаємо/ставимо галочку, весь час курсор падає на початок слова.
                 //Устанавливает курсор в конце слова
                 //passwordText.setSelection(passwordText.getText().length());
             }
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 return  false;
             }
         });
-
+        // TODO: Хто так змінні іменує????
         boolean Sign_In = sharedPreferences.getBoolean(IS_Sign_In,false);
         if(Sign_In){
             Intent intent = new Intent(this,OpenNewWindow.class);
@@ -101,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void submitInformation() {
-
+        // TODO: Коли стою на логіні, є введений якийсь текст і пустий пароль - то повідомлення помилки не показується.
+        // TODO: Треба ховати помилки, якщо продовжуємо писати текст, тому що овни не зникаєть, поки не натиснеш ентер.
         if (loginText.getText().length() == 0 && passwordText.getText().length() == 0) {
 
             loginText.setError(getString(R.string.login_error));
@@ -122,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
                     .show();*/
         }
     }
-
+    // TODO: Хто так функції іменує????
+    // TODO: Стандарт java тре почитати.
     private void GoNextActivity(){
 
         String log = loginText.getText().toString();
@@ -136,7 +141,15 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this,OpenNewWindow.class);
         startActivity(intent);
+
+        // TODO: Після того, як перейшов на екран і натиснув назад - закинуло знову сюди.
+        // TODO: Натискаю логін і знову назад - знову перекидую сюди.
+        // TODO: І так безкінечно.
     }
+
+    // TODO: І давай розбий це все діло нормально на функції.
+    // TODO: А то в тебе все правтично у трьох функціях.
+    // TODO: І ще, підключи ретролямбду.
 
 }
 
