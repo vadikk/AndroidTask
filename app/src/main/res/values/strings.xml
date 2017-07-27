@@ -5,4 +5,5 @@
 
     <string name="login_error">Please write login</string>
     <string name="password_error">Please write password</string>
+
 </resources>
