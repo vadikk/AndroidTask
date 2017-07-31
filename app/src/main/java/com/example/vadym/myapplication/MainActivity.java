@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,70 +18,61 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
-    // TODO: Навіщо тут статика?
-    public static EditText loginText;
+    private  EditText loginText;
     private EditText passwordText;
     private CheckBox check;
     private Button buttonSignUp;
-    private int cursorPosition =0;
 
-    public static final String AppPrefs = "AppPrefs";
-    public static final String Login = "LoginKey";
-    public static final String Password = "PasswordKey";
-    public static final String IS_Sign_In = "UserLoginIn";
-
+    private boolean mAutoSignIn;
     private SharedPreferences sharedPreferences;
-    // TODO: Неюзабельна змінна
-    public static boolean autoSignIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkinformation);
 
+        sharedPreferences = getSharedPreferences(Constants.AppPrefs, Context.MODE_PRIVATE);
+
         loginText = (EditText) findViewById(R.id.editLoginText);
         passwordText = (EditText) findViewById(R.id.editPasswordText);
         buttonSignUp = (Button) findViewById(R.id.button);
         check = (CheckBox) findViewById(R.id.checkBox);
 
-        sharedPreferences = getSharedPreferences(AppPrefs, Context.MODE_PRIVATE);
+        mAutoSignIn = sharedPreferences.getBoolean(Constants.IS_Sign_In,false);
 
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    passwordText.setTransformationMethod(null);
+        check.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                passwordText.setTransformationMethod(null);
 
-                } else {
-                    passwordText.setTransformationMethod(new PasswordTransformationMethod());
+            } else {
+                passwordText.setTransformationMethod(new PasswordTransformationMethod());
 
-                }
-                // TODO: не працює запам’ятовування позиції курсора, коли знімаємо/ставимо галочку, весь час курсор падає на початок слова.
-                //Устанавливает курсор в конце слова
-                //passwordText.setSelection(passwordText.getText().length());
             }
+
+            //Устанавливает курсор в конце слова
+            //passwordText.setSelection(passwordText.getText().length());
         });
 
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitInformation();
-            }
+        buttonSignUp.setOnClickListener(v -> submitInformation());
+
+        passwordText.setOnTouchListener((v, event) -> {
+
+            // TODO: не працює запам’ятовування позиції курсора, коли знімаємо/ставимо галочку, весь час курсор падає на початок слова.
+            //int cursorPositionStart = passwordText.getSelectionStart();
+            int cursorPositionEnd = passwordText.getSelectionEnd();
+
+            //CharSequence enterText = passwordText.getText().toString();
+            //CharSequence cursorEnd = enterText.subSequence(cursorPosition,enterText.length());
+
+            return false;
         });
 
-        passwordText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                cursorPosition = passwordText.getSelectionStart();
-                CharSequence enterText = passwordText.getText().toString();
-                CharSequence cursorEnd = enterText.subSequence(cursorPosition,enterText.length());
-                return false;
-            }
-        });
+
 
         passwordText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -95,12 +90,15 @@ public class MainActivity extends AppCompatActivity {
                 return  false;
             }
         });
-        // TODO: Хто так змінні іменує????
-        boolean Sign_In = sharedPreferences.getBoolean(IS_Sign_In,false);
-        if(Sign_In){
+
+
+        if(mAutoSignIn){
             Intent intent = new Intent(this,OpenNewWindow.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         }
+
     }
 
     public void submitInformation() {
@@ -110,15 +108,17 @@ public class MainActivity extends AppCompatActivity {
 
             loginText.setError(getString(R.string.login_error));
             passwordText.setError(getString(R.string.password_error));
-        } else if (loginText.getText().length() == 0) {
-//
+
+
+        } else if (loginText.getText().toString().trim().length() <= 0) {
+            loginText.requestFocus();
             loginText.setError(getString(R.string.login_error));
         } else if (passwordText.getText().length() == 0) {
-
+            passwordText.requestFocus();
             passwordText.setError(getString(R.string.password_error));
         } else {
 
-            GoNextActivity();
+            goNextActivity();
 
             /*new AlertDialog.Builder(this)
                     .setTitle(R.string.final_title)
@@ -126,30 +126,31 @@ public class MainActivity extends AppCompatActivity {
                     .show();*/
         }
     }
-    // TODO: Хто так функції іменує????
-    // TODO: Стандарт java тре почитати.
-    private void GoNextActivity(){
+
+    private void setSettingsToSharedPreferencesEditor(){
 
         String log = loginText.getText().toString();
         String pas = passwordText.getText().toString();
 
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(Login,log);
-        edit.putString(Password,pas);
-        edit.putBoolean(IS_Sign_In,true);
+
+        edit.putString(Constants.Login, log);
+        edit.putString(Constants.Password,pas);
+        edit.putBoolean(Constants.IS_Sign_In,true);
         edit.apply();
 
-        Intent intent = new Intent(this,OpenNewWindow.class);
-        startActivity(intent);
-
-        // TODO: Після того, як перейшов на екран і натиснув назад - закинуло знову сюди.
-        // TODO: Натискаю логін і знову назад - знову перекидую сюди.
-        // TODO: І так безкінечно.
     }
 
-    // TODO: І давай розбий це все діло нормально на функції.
-    // TODO: А то в тебе все правтично у трьох функціях.
-    // TODO: І ще, підключи ретролямбду.
+    private void goNextActivity(){
+        setSettingsToSharedPreferencesEditor();
+
+        Intent intent = new Intent(this,OpenNewWindow.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+
+    }
 
 }
+
 

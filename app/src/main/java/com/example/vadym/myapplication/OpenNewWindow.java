@@ -9,14 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class OpenNewWindow extends AppCompatActivity {
+//import static com.example.vadym.myapplication.Constants.sharedPreferences;
 
-    //public MainActivity main = new MainActivity();
+public class OpenNewWindow extends AppCompatActivity {
 
     private TextView welcomeText;
     private Button btnExit;
-
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +25,12 @@ public class OpenNewWindow extends AppCompatActivity {
         welcomeText = (TextView) findViewById(R.id.welcomeText);
         btnExit = (Button) findViewById(R.id.btnExit);
 
-        // TODO: Якщо юзаєш якісь речі повторно - винеси їх, особливо, якщо це змінні.
-        sharedPreferences = getSharedPreferences(MainActivity.AppPrefs, Context.MODE_PRIVATE);
-        String user = sharedPreferences.getString(MainActivity.Login,"");
+        sharedPreferences = getSharedPreferences(Constants.AppPrefs, Context.MODE_PRIVATE);
+        String user = sharedPreferences.getString(Constants.Login,"");
         welcomeText.setText("Hello " + user);
 
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        btnExit.setOnClickListener(v -> logout());
 
-        // TODO: Коли зайшов в додаток вже типу наступного разу, то натискаю назад і знову сторінка логінки.
     }
 
     private void logout(){
@@ -47,8 +39,9 @@ public class OpenNewWindow extends AppCompatActivity {
         edit.apply();
 
         Intent i = new Intent(this,MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
-        // TODO: Коли найтиснув на вихід і настинув назад - показує знову цей екран.
+        finish();
     }
 
 

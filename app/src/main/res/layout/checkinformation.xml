@@ -1,57 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-todo Поверни екран на бік і постав девайс nexus one на 3.7 дюйма
-todo В тебе не плазитиме кнопка логіну
-todo Придумай якось обхід для цього варіанту
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editLoginText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.00"
-        android:ems="10"
-        android:hint="Login"
-        android:inputType="textEmailAddress"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp" />
-
-    <EditText
-        android:id="@+id/editPasswordText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/editLoginText"/>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.00"
-        android:text="OK"
-        android:onClick="submitInformation"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
-        android:layout_below="@+id/checkBox"/>
-
-
-    <CheckBox
-        android:id="@+id/checkBox"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editPasswordText"
-        android:layout_centerHorizontal="true"
-        android:text="Show Password "
-        android:layout_margin="8dp"/>
+        android:orientation = "vertical"
+        android:layout_centerInParent="true">
 
+        <EditText
+            android:id="@+id/editLoginText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.00"
+            android:ems="10"
+            android:hint= "@string/hint_login"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/editPasswordText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:ems="10"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/text_checkbox" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:text="@string/text_btn" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>
