@@ -31,18 +31,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkinformation);
 
+        init();
+        initOnClickListeners();
+        initViewsListeners();
+    }
+
+
+    private void init(){
+
         sharedPreferences = getSharedPreferences(Constants.APP_PREFS, Context.MODE_PRIVATE);
+        mAutoSignIn = sharedPreferences.getBoolean(Constants.IS_SIGN_IN, false);
+
+        if (mAutoSignIn) {
+            setInitSettings();
+        }
 
         loginText = (EditText) findViewById(R.id.editLoginText);
         passwordText = (EditText) findViewById(R.id.editPasswordText);
         buttonSignUp = (Button) findViewById(R.id.button);
         check = (CheckBox) findViewById(R.id.checkBox);
 
-        mAutoSignIn = sharedPreferences.getBoolean(Constants.IS_SIGN_IN, false);
+    }
 
+    private void initOnClickListeners(){
+        buttonSignUp.setOnClickListener(v -> submitInformation());
+    }
+    private void initViewsListeners(){
         check.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // TODO: Я подумав, що сеттінг трансформМетода може зтирати позицію опточного курсора
-            // TODO: Тому, я її запам’ятовую тут...
+
             int cursorPositionStart = passwordText.getSelectionStart();
 
             if (isChecked) {
@@ -52,27 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 passwordText.setTransformationMethod(new PasswordTransformationMethod());
 
             }
-            // TODO: ...і ставлю назад тут. Вуаля.
-            //Устанавливает курсор в конце слова
+
             passwordText.setSelection(cursorPositionStart);
         });
-
-        buttonSignUp.setOnClickListener(v -> submitInformation());
-
-
-        // TODO: Це можна зтерти, воно не потрібне.
-        passwordText.setOnTouchListener((v, event) -> {
-
-            // TODO: не працює запам’ятовування позиції курсора, коли знімаємо/ставимо галочку, весь час курсор падає на початок слова.
-            //int cursorPositionStart = passwordText.getSelectionStart();
-            int cursorPositionEnd = passwordText.getSelectionEnd();
-
-            //CharSequence enterText = passwordText.getText().toString();
-            //CharSequence cursorEnd = enterText.subSequence(cursorPosition,enterText.length());
-
-            return false;
-        });
-
 
         passwordText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -90,47 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        // TODO: Тут гарно зробив, але в нас проблема є в тому, що є функціонал на цьому екрані, який є ідентичним.
-        // TODO: Функція #goToNextActivity() має той самий код як знизу, тільки там ще викликається saveLoginAndPassword.
-        // TODO: Спробуй трохи інакше написати цей код.
-        if (mAutoSignIn) {
-            Intent intent = new Intent(this, OpenNewWindow.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-        init();
-        initOnClickListeners();
-        initViewsListeners();
-    }
-
-
-
-    private void init(){
-        // TODO: Сиди напиши findViewById всі і перевірку на прапор IS_AUTO_SING_IN.
-        // TODO: Дивись, ми цим вбиваємо двох зайців(щодо другого).
-        // TODO: Якщо цей прапор в тру, то нам треба кинути на другу актівіті, інші дії з елементами ж не тре робити.
-        // TODO: Якщо ні, то в ініт інших елементів воно саме зайде далі, оскільки викликаються всі функції.
-    }
-
-    private void initOnClickListeners(){
-        // TODO: Тут всі setOnClickListener`и напиши.
-    }
-    private void initViewsListeners(){
-        // TODO: А тут всі інші listeners.
     }
 
     public void submitInformation() {
@@ -160,9 +117,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Краще назвати функцію ясніше, типу так ->
-//    private void setSettingsToSharedPreferencesEditor(){
-    private void saveLoginAndPassword() {
+    private void setInitSettings(){
+        Intent intent = new Intent(this, OpenNewWindow.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    private void setSettingsToSharedPreferencesEditor() {
         String log = loginText.getText().toString();
         String pas = passwordText.getText().toString();
 
@@ -175,12 +137,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToNextActivity() {
-        saveLoginAndPassword();
-
-        Intent intent = new Intent(this, OpenNewWindow.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        setSettingsToSharedPreferencesEditor();
+        setInitSettings();
     }
 
 }
